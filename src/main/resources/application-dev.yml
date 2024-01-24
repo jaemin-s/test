@@ -1,0 +1,105 @@
+server:
+  port: 80
+  servlet:
+    context-path: "/PVS"
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+logging:
+  file:
+    path: logs/PVS
+  config: config/logback-dev.xml
+
+pvs:
+  password:
+    adult:
+      default: 9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0
+  ssl:
+    cacerts:
+      verify: false
+      protocol: TLS
+      path:
+      password:
+    hostname:
+      verify: false
+  preview_period_in_minute: 10080
+
+mbs:
+  scheme: https
+  ip: dev-mbs.ochoice.co.kr
+  port: 443
+  pay_confirm_url: /mbs/linkPayment-notify
+  cancel_pay_url: /mbs/payment-cancel
+  adult_auth_url: /mbs/adult-auth-notify
+  member_url: /mbs/member
+  product_list_url: /mbs/getProductList
+  conn_timeout: 3000
+  read_timeout: 10000
+  confirm_success:
+    use: true
+  confirm_fail:
+    use: true
+  password:
+    encode:
+      exclude: CMB
+
+ims:
+  scheme: https
+  ip: salesdev.hcn.co.kr
+  port: 443
+  sign_up_url: /home-choice/ims/sign-up
+  happy_call_url: /home-choice/ims/happy-call
+  sign_up:
+    use: false
+  happy_call:
+    use: true
+
+system:
+  siteDefinition: ALL
+
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://hc-ochoice-dev-db.c9jebp0evwxt.ap-northeast-2.rds.amazonaws.com/pvs?characterEncoding=UTF-8
+    username: pvs
+    password: Hchoice123!
+    hikari:
+      pool-name: PVS-HikariCP
+      maximum-pool-size: 8
+      minimum-idle: 0
+      max-lifetime: 1800000
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+      idle-timeout: 600000
+  jpa:
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+        dialect: org.hibernate.dialect.MySQLInnoDBDialect
+        show_sql: false
+        format_sql: true
+        hbm2ddl.auto: none
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  paths-to-match:
+    - /api/**
