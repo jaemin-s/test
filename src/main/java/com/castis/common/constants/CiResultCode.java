@@ -89,9 +89,6 @@ public final class CiResultCode {
 	public static final int code_100 = 100;
 	public static final int OK 		 = code_100;
 	public static final int SUCCESS  = code_100;
-	public static final int code_0 = 0;//"이미 다른 유저를 추천하셨습니다.";
-	public static final int code_1 = 1;//"추천인을 찾을 수 없습니다.";
-	public static final int code_2 = 2;//"해당 유저를 추천하였습니다.";
 	public static final int code_101 = 101;//"등록되지 않은 아이디 이거나 아이디 또는 비밀번호를 잘못 입력하셨습니다.";
 	public static final int code_102 = 102;//"번호당 3개의 회원가입만 가능합니다 (3개 초과 된 ID)";
 	public static final int code_104 = 104;//"문자전송이 실패했습니다.";
@@ -213,9 +210,6 @@ public final class CiResultCode {
 
 
 	public static final class MSG {
-		public static final String code_0 = "이미 다른 유저를 추천하셨습니다.";
-		public static final String code_1 = "추천인을 찾을 수 없습니다.";
-		public static final String code_2 = "해당 유저를 추천하였습니다.";
 		public static final String code_100 = "요청 처리 성공";
 		public static final String code_101 = "등록되지 않은 아이디 이거나 아이디 또는 비밀번호를 잘못 입력하셨습니다.";
 		public static final String code_102 = "번호당 3개의 회원가입만 가능합니다 (3개 초과 된 ID)";

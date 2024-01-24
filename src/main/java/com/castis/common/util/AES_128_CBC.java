@@ -82,7 +82,6 @@ public class AES_128_CBC {
 	}
 
 		
-
 	/*
 	 * AES128 CBC 복호화 함수
 	 *  128은 암호화 키 길이를 의미한다. 
@@ -99,37 +98,6 @@ public class AES_128_CBC {
 		cipher.init(Cipher.DECRYPT_MODE, newKey, ivSpec);
 
 		return new String(cipher.doFinal(textBytes), "UTF-8");
-	}
-
-	
-	public static String encAES128CBC_object(Object obj, String key) 
-		throws UnsupportedEncodingException, NoSuchAlgorithmException,NoSuchPaddingException,
-		InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, CiException {
-
-		String jsonString = null;
-		GsonBuilder gb = new GsonBuilder();
-		gb = gb.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		Gson gson = gb.create();
-		jsonString = gson.toJson(obj);
-
-		if(jsonString==null || jsonString.isEmpty()){ throw new CiException(CiResultCode.GENERAL_ERROR, "Fail to ENCRYPT."); }
-
-		return encAES128CBC(jsonString, key);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Map<String, String> decAES128CBC_map(String data, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException,NoSuchPaddingException,
-		InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
-
-		String decStr = decAES128CBC(data, key);
-		// String decStr = data.trim();
-		if(decStr==null || decStr.isEmpty()){return null;}
-
-		Map<String,String> map = new HashMap<String,String>();
-		Gson gson = new GsonBuilder().create();
-		map = gson.fromJson(decStr, HashMap.class);
-
-		return map;
 	}
 
 }

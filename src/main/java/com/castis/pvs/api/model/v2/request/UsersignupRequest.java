@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Schema(name = "UsersignupRequest", description = "회원가입 요청 모델")
 public class UsersignupRequest {
 
-    @NotEmpty
     @Schema(description = "회원아이디", example = "homechoiceUser1", requiredMode = Schema.RequiredMode.REQUIRED)
     private String member_id;
 

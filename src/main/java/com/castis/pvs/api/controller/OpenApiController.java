@@ -43,6 +43,7 @@ import java.util.Set;
 
 @RestController
 public class OpenApiController {
+
     private final OpenApiService apiService;
 
     private Validator validator;

@@ -9,13 +9,11 @@ import com.castis.pvs.member.dao.MemberDao;
 import com.castis.pvs.member.dto.MemberCardDTO;
 import com.castis.pvs.member.dto.MemberDTO;
 import com.castis.pvs.member.dto.MemberNotiDTO;
-import com.castis.pvs.member.dto.NewDeviceDTO;
 import com.castis.pvs.member.dto.STBInfoDTO;
 import com.castis.pvs.member.entity.AddressRef;
 import com.castis.pvs.member.entity.BankRef;
 import com.castis.pvs.member.entity.Member;
 import com.castis.pvs.member.entity.MemberInactive;
-import com.castis.pvs.member.entity.NewDevice;
 import com.castis.pvs.security.PasswordEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -146,7 +144,30 @@ public class MemberService {
 			CiLogger.error(e, "DB General Error.");
 			throw new CiException(CiResultCode.DB_GENERAL_ERROR, CiResultCode.MSG.code_501);
 		}
-		
+	}
+
+	public Member findMemberByIdTelPw(String memberId,String pw) throws CiException {
+
+		try {
+			Member member = memberDao.getMemberbyIdTelPw(memberId, pw);
+
+			return member;
+		}catch (Exception e) {
+			CiLogger.error(e, "DB General Error.");
+			throw new CiException(CiResultCode.DB_GENERAL_ERROR, CiResultCode.MSG.code_501);
+		}
+	}
+
+	public Member findMemberByIdEmailPw(String memberId,String pw) throws CiException {
+
+		try {
+			Member member = memberDao.getMemberbyIdEmailPw(memberId, pw);
+
+			return member;
+		}catch (Exception e) {
+			CiLogger.error(e, "DB General Error.");
+			throw new CiException(CiResultCode.DB_GENERAL_ERROR, CiResultCode.MSG.code_501);
+		}
 	}
 	
 	public MemberInactive findMemberInactiveByIdTel(String memberId, String tel) throws CiException {

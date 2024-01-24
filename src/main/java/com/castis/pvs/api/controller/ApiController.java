@@ -5,7 +5,6 @@ import com.castis.common.exception.CiException;
 import com.castis.common.model.CiRequest;
 import com.castis.common.model.CiResponse;
 import com.castis.common.model.ImsResponse;
-import com.castis.common.util.AES_128_CBC;
 import com.castis.common.util.AES_256_ECB;
 import com.castis.common.util.CiLogUtil;
 import com.castis.common.util.CiLogger;
@@ -15,7 +14,6 @@ import com.castis.pvs.api.model.v2.response.UsersignupResponse;
 import com.castis.pvs.api.service.ApiService;
 import com.castis.pvs.entity.SiteInfo;
 import com.castis.pvs.member.dto.MemberDTO;
-import com.castis.pvs.member.dto.NewDeviceDTO;
 import com.castis.pvs.pay.model.PurchaseRequest;
 import com.castis.pvs.swagger.model.DocApiResponse;
 import com.castis.pvs.swagger.model.DocIsDuplicateCheckResponse;
@@ -29,7 +27,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +54,6 @@ import java.util.Objects;
 import java.util.Set;
 import org.springframework.ui.ModelMap;
 
-@Slf4j
 @Controller
 public class ApiController {
 
@@ -547,30 +543,6 @@ public class ApiController {
             CiLogger.request(httpRequest, apiRequest.toString());
             MemberDTO memberDTO = new MemberDTO(apiRequest);
             CiResponse response = apiService.updateMember(memberDTO);
-            return response;
-
-        } catch (CiException e) {
-            CiResponse response = new CiResponse();
-            response.setResultCode(CiResultCode.INVALID_ACCOUNT_ID);
-            response.setErrorMessage(e.getErrorString());
-            return response;
-        } catch (Exception e) {
-            CiResponse response = new CiResponse();
-            response.setResultCode(CiResultCode.GENERAL_ERROR);
-            response.setErrorMessage(e.getMessage());
-            return response;
-        }
-    }
-
-    @PostMapping(value = "/api/userRecommend")
-    @ResponseBody
-    @Hidden
-    public CiResponse userRecommend(HttpServletRequest httpRequest, @Valid @RequestBody UserSignUpRequest apiRequest) throws Exception {
-
-        try {
-            CiLogger.request(httpRequest, apiRequest.toString());
-            MemberDTO memberDTO = new MemberDTO(apiRequest);
-            CiResponse response = apiService.recommendMember(memberDTO);
             return response;
 
         } catch (CiException e) {
@@ -1210,27 +1182,6 @@ public class ApiController {
             encryptedResponse = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(response);
         }
         return ResponseEntity.status(httpStatus).body(encryptedResponse);
-    }
-
-    @RequestMapping(value = "/api/selectAllDeviceWithAccountId", method = RequestMethod.POST)
-	@ResponseBody
-	public CiResponse newDevice(HttpServletRequest httpServletRequest, @RequestBody NewDeviceDTO newDeviceDTO) throws Exception {
-		CiResponse response = apiService.selectAllDeviceWithAccountId(newDeviceDTO);
-		return response;
-	}
-
-    @RequestMapping(value = "/api/getDeviceList", method = RequestMethod.POST)
-    @ResponseBody
-    public CiResponse getDeviceList(HttpServletRequest httpServletRequest, @RequestBody NewDeviceDTO newDeviceDTO) throws Exception {
-        CiResponse response = apiService.getDeviceList(newDeviceDTO);
-        return response;
-    }
-
-    @RequestMapping(value = "api/deleteDevice", method = RequestMethod.DELETE)
-    @ResponseBody
-    public CiResponse deleteDevice(HttpServletRequest httpServletRequest, @RequestBody NewDeviceDTO newDeviceDTO) throws CiException {
-        CiResponse response = apiService.deleteDevice(newDeviceDTO);
-        return response;
     }
 
 }
