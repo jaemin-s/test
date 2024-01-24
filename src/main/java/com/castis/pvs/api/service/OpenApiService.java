@@ -105,7 +105,6 @@ public class OpenApiService {
             memberDTO.setAdult_pass(adultDefaultPassword);
 
         Member member = new Member(memberDTO);
-        member.setMember_id(memberDTO.getTel());    // 앞으로 회원가입 되는 계정은 아이디를 전화번호로 강제주입
         try {
             Long id = memberDao.saveMember(member);
             member.setId(id);

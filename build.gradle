@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.castis.pvs'
-version = '2.0.1.QR8'
+version = '2.0.1.QR9'
 sourceCompatibility = '1.8'
 
 configurations {

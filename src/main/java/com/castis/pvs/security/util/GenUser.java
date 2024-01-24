@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class GenUser {
 
-	public static final String AES_CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
+	private static final String AES_CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
 	private static final String IV = "0987654321654321";
 	/**
 	 * Main function to generate AES value

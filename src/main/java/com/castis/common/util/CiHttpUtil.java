@@ -359,7 +359,8 @@ public class CiHttpUtil {
 			if(urlConn==null){ throw new CiException(CiResultCode.BAD_GATEWAY, "External System(%s) connection error", url); }
 			
 			int resultCode = urlConn.getResponseCode(); 
-			if( resultCode  == HttpURLConnection.HTTP_OK ){
+			// 딜라이브는 responseCode를 resultCode와 같은 값을 보냄 HTTP_CREATED는 201 SO가입자 있음 (HTTP_ACCEPTED: SO 미가입자, 해피콜 대상자)
+			if( resultCode  == HttpURLConnection.HTTP_OK || resultCode  == HttpURLConnection.HTTP_CREATED || resultCode  == HttpURLConnection.HTTP_ACCEPTED){
 				String resultStr = CiHttpUtil.convertStreamToString(urlConn.getInputStream());	
 				CiLogger.info("*** recv : %s",CiStringUtil.sub_string(resultStr, 1024, "..."));
 				if(resultStr!=null && resultStr.isEmpty()==false) {

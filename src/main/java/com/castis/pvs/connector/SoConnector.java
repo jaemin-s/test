@@ -2,6 +2,7 @@ package com.castis.pvs.connector;
 
 import com.castis.common.ssl.CiHttpsUtil;
 import com.castis.common.util.AES_256_ECB;
+import com.castis.common.util.AES_128_CBC;
 import com.castis.common.util.CiHttpUtil;
 import com.castis.common.util.CiLogger;
 import com.castis.pvs.api.dto.SignUpDTO;
@@ -207,6 +208,7 @@ public class SoConnector {
      */
     public  SignUpResponse sign_up_to_so(SignUpSoDTO signUpSoDTO, SiteInfo siteInfo) throws Exception {
         String secretKey = siteInfo.getEncrypt_key();
+        Map<String, String> responseMap = null;
 
         if (siteInfo.getSign_up_use() == false) {
             CiLogger.info("so_sign_up_use[off] :: SignUpSoDTO[%s]", signUpSoDTO.toString());
@@ -219,13 +221,27 @@ public class SoConnector {
         }
         try {
             CiLogger.info("so_sign_up_use[on] :: SignUpSoDTO[%s]", signUpSoDTO.toString());
-            AES_256_ECB aes = new AES_256_ECB(secretKey);
-            String AES_256 = aes.enc_aes_object(signUpSoDTO);
-           
-            CiLogger.info("so_sign_up_use[on] :: Encrypted SignUpSoDTO[%s]", AES_256.toString());
-            String response = sign_up(siteInfo, AES_256, String.class);
+            if(siteInfo.getSo_id().equals("4002")){
+                // AES_D128_CBC aes = new AES_D128_CBC();
+                // String AES_128 = aes.enc_aes_object(signUpSoDTO);
+                String AES_128 = AES_128_CBC.encAES128CBC_object(signUpSoDTO, siteInfo.getEncrypt_128key());
 
-            Map<String, String> responseMap = aes.dec_aes_map(response);
+                CiLogger.info("so_sign_up_use[on] :: Encrypted SignUpSoDTO[%s]", AES_128.toString());
+                String response = sign_up(siteInfo, AES_128, String.class);
+
+                responseMap = AES_128_CBC.decAES128CBC_map(response, siteInfo.getEncrypt_128key());
+                // responseMap = AES_128_CBC.decAES128CBC_map(response);
+            }else{
+                AES_256_ECB aes = new AES_256_ECB(secretKey);
+                String AES_256 = aes.enc_aes_object(signUpSoDTO);
+
+                CiLogger.info("so_sign_up_use[on] :: Encrypted SignUpSoDTO[%s]", AES_256.toString());
+                String response = sign_up(siteInfo, AES_256, String.class);       
+                
+               responseMap = aes.dec_aes_map(response);                
+            }
+           
+
             if (responseMap.get("resultCode").equals("201")) {
 
                 CiLogger.info("SO 가입자 인증 Success :: response[%s]", responseMap.toString());

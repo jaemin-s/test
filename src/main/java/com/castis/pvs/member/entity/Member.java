@@ -80,6 +80,8 @@ public class Member implements Serializable{
 
 	private String recommender_id;
 
+	private LocalDateTime recommend_time;
+
 	private String ci;
 
 	private String di;

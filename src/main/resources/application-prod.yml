@@ -64,7 +64,7 @@ spring:
     active: prod
   datasource:
     url: jdbc:mysql://hc-ochoice-prod-db.c9jebp0evwxt.ap-northeast-2.rds.amazonaws.com/pvs?characterEncoding=UTF-8
-    username: pvs
+    username: homechoicetech
     password: Hchoice123!
     hikari:
       pool-name: PVS-HikariCP
